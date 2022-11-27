@@ -15,12 +15,12 @@ module.exports = (sequelize, DataTypes) => {
     static addTodo({ title, dueDate }) {
       return this.create({ title: title, dueDate: dueDate, completed: false });
     }
-    static async remove(id){
+    static async remove(id) {
       return this.destroy({
-        where:{
+        where: {
           id,
-        }
-      })
+        },
+      });
     }
 
     static getTodos() {
@@ -32,6 +32,7 @@ module.exports = (sequelize, DataTypes) => {
           dueDate: {
             [Op.lt]: new Date(),
           },
+          completed: false,
         },
       });
     }
@@ -41,6 +42,7 @@ module.exports = (sequelize, DataTypes) => {
           dueDate: {
             [Op.eq]: new Date(),
           },
+          completed: false,
         },
       });
     }
@@ -50,8 +52,19 @@ module.exports = (sequelize, DataTypes) => {
           dueDate: {
             [Op.gt]: new Date(),
           },
+          completed: false,
         },
       });
+    }
+    static async completedItems() {
+      return this.findAll({
+        where: {
+          completed: true,
+        },
+      });
+    }
+    setCompletionStatus(bool) {
+      return this.update({ completed: bool });
     }
 
     markAsCompleted() {
