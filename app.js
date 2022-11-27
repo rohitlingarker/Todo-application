@@ -1,32 +1,37 @@
 /* eslint-disable no-unused-vars */
 const express = require("express");
 const app = express();
+var csrf = require("csurf");
+var cookieParser = require("cookie-parser");
 const { Todo } = require("./models");
 const bodyParser = require("body-parser");
 const path = require("path");
 
 app.use(bodyParser.json());
 app.use(express.urlencoded({ extended: false }));
+app.use(cookieParser("secret string"));
+app.use(csrf({ cookie: true }));
 
 app.set("view engine", "ejs");
 
 app.get("/", async function (request, response) {
   const allTodos = await Todo.getTodos();
-  const overdues = await Todo.overdue();
-  const itemsDueToday = await Todo.dueToday();
-  const itemsDueLater = await Todo.dueLater();
+  const overdue = await Todo.overdue();
+  const dueToday = await Todo.dueToday();
+  const dueLater = await Todo.dueLater();
   if (request.accepts("html")) {
     response.render("index", {
       allTodos,
-      overdues,
-      itemsDueToday,
-      itemsDueLater,
+      overdue,
+      dueToday,
+      dueLater,
+      csrfToken: request.csrfToken(),
     });
   } else {
     response.json({
-      overdues,
-      itemsDueToday,
-      itemsDueLater,
+      overdue,
+      dueToday,
+      dueLater,
     });
   }
   // response.render("index");
@@ -86,11 +91,11 @@ app.delete("/todos/:id", async function (request, response) {
   console.log("We have to delete a Todo with ID: ", request.params.id);
   // FILL IN YOUR CODE HERE
   try {
-    await Todo.remove(request.params.id)
-    return response.json({ success:true})
+    await Todo.remove(request.params.id);
+    return response.json({ success: true });
   } catch (error) {
     console.log(error);
-    return response.status(422).json(error)
+    return response.status(422).json(error);
   }
 });
 
