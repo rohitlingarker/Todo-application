@@ -1,5 +1,5 @@
 "use strict";
-const { Model , Op} = require("sequelize");
+const { Model, Op } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
   class Todo extends Model {
     /**
@@ -7,6 +7,7 @@ module.exports = (sequelize, DataTypes) => {
      * This method is not a part of Sequelize lifecycle.
      * The `models/index` file will call this method automatically.
      */
+    // eslint-disable-next-line no-unused-vars
     static associate(models) {
       // define association here
     }
@@ -15,35 +16,35 @@ module.exports = (sequelize, DataTypes) => {
       return this.create({ title: title, dueDate: dueDate, completed: false });
     }
 
-    static getTodos(){
-      return this.findAll()
+    static getTodos() {
+      return this.findAll();
     }
-    static async overdue(){
-      return this.findAll(
-        {where:{
-          dueDate:{
-            [Op.lt]:new Date()
+    static async overdue() {
+      return this.findAll({
+        where: {
+          dueDate: {
+            [Op.lt]: new Date(),
           },
-        }}
-      )
+        },
+      });
     }
-    static async dueToday(){
-      return this.findAll(
-        {where:{
-          dueDate:{
-            [Op.eq]:new Date()
+    static async dueToday() {
+      return this.findAll({
+        where: {
+          dueDate: {
+            [Op.eq]: new Date(),
           },
-        }}
-      )
+        },
+      });
     }
-    static async dueLater(){
-      return this.findAll(
-        {where:{
-          dueDate:{
-            [Op.gt]:new Date()
+    static async dueLater() {
+      return this.findAll({
+        where: {
+          dueDate: {
+            [Op.gt]: new Date(),
           },
-        }}
-      )
+        },
+      });
     }
 
     markAsCompleted() {
