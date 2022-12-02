@@ -54,6 +54,9 @@
     <div class="grid grid-cols-6">
         <div class="col-start-3 col-span-2">
             <%- include('header.ejs') %>
+            <p class="py-2">Welcome to the TO-do manager</p>
+            <p class="py-2">New here?<a class="text-green-600" href="/signup">Sign-up now</a></p>
+            <p class="py-2">Already have an account?<a class="text-green-600" href="/login">Sign-in</a></p>
                 <form action="/todos" method="post">
                     <input type="hidden" name="_csrf" value="<%=csrfToken %>">
                     <div class="flex gap-2 py-4">
@@ -73,10 +76,10 @@
                     </div>
                 </form>
 
-                <%- include('todos.ejs',{title:"Overdue",data:overdue}) %>
-                    <%- include('todos.ejs',{title:"Due Today",data:dueToday}) %>
-                        <%- include('todos.ejs',{title:"Due Later",data:dueLater}) %>
-                            <%- include('todos.ejs',{title:"Completed Items",data:completedItems}) %>
+                <%- include('todo.ejs',{title:"Overdue",data:overdue}) %>
+                    <%- include('todo.ejs',{title:"Due Today",data:dueToday}) %>
+                        <%- include('todo.ejs',{title:"Due Later",data:dueLater}) %>
+                            <%- include('todo.ejs',{title:"Completed Items",data:completedItems}) %>
         </div>
     </div>
 </body>
