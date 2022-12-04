@@ -1,8 +1,8 @@
 /* eslint-disable no-unused-vars */
 const express = require("express");
 const app = express();
-var csrf = require("csurf");
 var cookieParser = require("cookie-parser");
+var csrf = require("csurf");
 const { Todo, User } = require("./models");
 const bodyParser = require("body-parser");
 const path = require("path");
