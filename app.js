@@ -12,8 +12,11 @@ const connectEnsureLogin = require("connect-ensure-login");
 const session = require("express-session");
 const LocalStrategy = require("passport-local");
 const bcrypt = require("bcrypt");
+const flash = require("connect-flash");
 
 const saltRounds = 10;
+
+app.set("views", path.join(__dirname, "views"));
 
 app.set("view engine", "ejs");
 
@@ -30,6 +33,11 @@ app.use(
     },
   })
 );
+app.use(flash());
+app.use(function (request, response, next) {
+  response.locals.messages = request.flash();
+  next();
+});
 
 app.use(passport.initialize());
 app.use(passport.session());
@@ -48,7 +56,7 @@ passport.use(
           if (result) {
             return done(null, user);
           } else {
-            return done("invalid password");
+            return done(null, false, { message: "Invalid password" });
           }
         })
         .catch((error) => {
@@ -95,6 +103,7 @@ app.get(
     const completedItems = await Todo.completedItems(loggedInUser);
 
     if (request.accepts("html")) {
+      // const msg =request.flash("success","successfully created ")
       response.render("todos", {
         allTodos,
         overdue,
@@ -136,10 +145,13 @@ app.post(
         dueDate: request.body.dueDate,
         userId: request.user.id,
       });
+      request.flash("success", "Added todo successfully");
       return response.redirect("/todos");
     } catch (error) {
       console.log(error);
-      return response.status(422).json(error);
+      request.flash("error", "title min len=5, date is required");
+      return response.redirect("/todos");
+      // return response.status(422).json(error);
     }
   }
 );
@@ -202,6 +214,8 @@ app.post("/users", async (request, response) => {
       response.redirect("/todos");
     });
   } catch (error) {
+    request.flash("error", "Email already exists, try ");
+    response.redirect("/signup");
     console.log(error);
   }
 });
@@ -215,7 +229,10 @@ app.get("/login", (request, response) => {
 
 app.post(
   "/session",
-  passport.authenticate("local", { failureRedirect: "/login" }),
+  passport.authenticate("local", {
+    failureRedirect: "/login",
+    failureFlash: true,
+  }),
   (request, response) => {
     response.redirect("/todos");
   }
