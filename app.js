@@ -56,11 +56,12 @@ passport.use(
           if (result) {
             return done(null, user);
           } else {
-            return done(null, false, { message: "Invalid password" });
+            return done(null, false, { message: "Invalid Password" });
           }
         })
         .catch((error) => {
-          return error;
+          console.log(error);
+          return done(null, false, { message: "Invalid Email" });
         });
     }
   )
