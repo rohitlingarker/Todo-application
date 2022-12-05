@@ -7,8 +7,8 @@ const { Todo, User } = require("./models");
 const bodyParser = require("body-parser");
 const path = require("path");
 
-const passport = require("passport");
 const connectEnsureLogin = require("connect-ensure-login");
+const passport = require("passport");
 const session = require("express-session");
 const LocalStrategy = require("passport-local");
 const bcrypt = require("bcrypt");
