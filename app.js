@@ -83,10 +83,14 @@ passport.deserializeUser((id, done) => {
 });
 
 app.get("/", async function (request, response) {
-  response.render("index", {
-    title: "Todo-application",
-    csrfToken: request.csrfToken(),
-  });
+  if (request.user) {
+    response.redirect("/todos");
+  } else {
+    response.render("index", {
+      title: "Todo-application",
+      csrfToken: request.csrfToken(),
+    });
+  }
   // response.render("index");
 });
 
@@ -97,6 +101,7 @@ app.get(
   connectEnsureLogin.ensureLoggedIn(),
   async function (request, response) {
     const loggedInUser = request.user.id;
+    const loggedInUserName = `${request.user.firstName} ${request.user.lastName}`;
     const allTodos = await Todo.getTodos(loggedInUser);
     const overdue = await Todo.overdue(loggedInUser);
     const dueToday = await Todo.dueToday(loggedInUser);
@@ -112,6 +117,7 @@ app.get(
         dueLater,
         completedItems,
         title: "Todo application",
+        loggedInUserName,
         csrfToken: request.csrfToken(),
       });
     } else {
@@ -198,6 +204,10 @@ app.get("/signup", (request, response) => {
 });
 
 app.post("/users", async (request, response) => {
+  // if(request.body.password===""){
+  //   request.flash("error", "password required");
+  //   response.redirect("/signup")
+  // }
   const hashedPwd = await bcrypt.hash(request.body.password, saltRounds);
   console.log(hashedPwd);
 
@@ -215,7 +225,14 @@ app.post("/users", async (request, response) => {
       response.redirect("/todos");
     });
   } catch (error) {
-    request.flash("error", "Email already exists, try ");
+    error.errors.forEach((element) => {
+      const msg = element.message;
+      request.flash("error", msg);
+      // if(msg==='Validation len on firstName failed'){request.flash("error","Fist Name required")}
+      // if(msg==='Validation len on email failed'){request.flash("error","Email required")}
+      // if(msg==='email must be unique'){request.flash("error","Email Already Existing")}
+    });
+
     response.redirect("/signup");
     console.log(error);
   }
@@ -246,6 +263,10 @@ app.get("/signout", (request, response, next) => {
     }
     response.redirect("/");
   });
+});
+
+app.get("/allusers", async (request, response) => {
+  console.log(await User.allusers());
 });
 
 module.exports = app;
