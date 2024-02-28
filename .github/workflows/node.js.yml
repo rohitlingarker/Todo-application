@@ -47,7 +47,7 @@ jobs:
           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
       - name: Deploy to Alwaysdata
         run: |
-          scp -r ./dist/* todoapplication@ssh.alwaysdata.com:/
+          scp -r ./dist/* todoapplication@ssh-todoapplication.alwaysdata.net:/
 
   notify-on-failure:
     name: Notify on Failure
