@@ -34,14 +34,19 @@ jobs:
         run: npm test
 
   deploy:
-    name: Deploy to Render.com
+    name: Deploy
     runs-on: ubuntu-latest
+    needs: test
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-      - name: Deploy to Render.com
+      - name: Install Render CLI
         run: |
-          render deploy \
-            --branch main \
-            --build-env NODE_ENV=production \
-            --services your-render-service-name
+          curl -O https://render.com/download/linux/render
+          chmod +x render
+          sudo mv render /usr/local/bin/render
+      - name: Deploy to Render
+        run: |
+          render login --token ${{ secrets.RENDER_TOKEN }} 
+          render deploy --config render.yaml 
+
