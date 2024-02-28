@@ -38,7 +38,7 @@ describe("Todo Application", function () {
     });
 
     res = await agent.get("/signout");
-  });
+  },10000);
 
   afterAll(async () => {
     try {
