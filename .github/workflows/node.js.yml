@@ -9,16 +9,16 @@ on:
       - master
 
 jobs:
-  validate-code:
-    name: Validate Code
+  lint:
+    name: Code validation
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
       - name: Install dependencies
         run: npm ci
-      - name: Validate code syntax
-        run: npx lint || echo "::error::Code validation failed. See workflow logs for details." && exit 1
+      - name: Lint code
+        run: npx lint-staged
 
   build:
     name: Build
