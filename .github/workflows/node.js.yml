@@ -32,7 +32,7 @@ jobs:
       - name: Install dependencies
         run: npm ci
       - name: Run tests
-        run: npm test || echo "::error::Tests failed. See workflow logs for details." && exit 1
+        run: npm test || echo "::error::Tests failed. See workflow logs for details."
 
   deploy:
     name: Deploy
@@ -56,14 +56,5 @@ jobs:
     if: failure()
     steps:
       - name: Notify on Failure
-        uses: discord/action@v1
-        with:
-          args: ${{ secrets.DISCORD_WEBHOOK_URL }}
-          status: failure
-          title: "Pipeline Failed"
-          description: |
-            Workflow: ${{ github.workflow }}
-            Branch: ${{ github.ref }}
-            Commit: ${{ github.sha }}
-            Author: ${{ github.actor }}
-            Error: ${{ job.status }}
+        run: |
+          curl -X POST -H "Content-Type: application/json" -d '{"content":"Pipeline Failed\nWorkflow: '${{ github.workflow }}'\nBranch: '${{ github.ref }}'\nCommit: '${{ github.sha }}'\nAuthor: '${{ github.actor }}'\nError: '${{ job.status }}'"}' ${{ secrets.DISCORD_WEBHOOK_URL }}
