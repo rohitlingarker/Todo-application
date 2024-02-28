@@ -3,10 +3,10 @@ name: WebApp CI/CD
 on:
   push:
     branches:
-      - main
+      - master
   pull_request:
     branches:
-      - main
+      - master
 
 jobs:
   validate-code:
@@ -16,7 +16,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
       - name: Validate code syntax
-        run: npm run lint || echo "::error::Code validation failed. See workflow logs for details." && exit 1
+        run: npx lint-staged || echo "::error::Code validation failed. See workflow logs for details." && exit 1
 
   build:
     name: Build
@@ -59,12 +59,12 @@ jobs:
     if: failure()
     steps:
       - name: Notify on Failure
-        uses: rtCamp/action-slack-notify@v3
+        uses: discord/action@v1
         with:
+          args: ${{ secrets.DISCORD_WEBHOOK_URL }}
           status: failure
-          slack_webhook: ${{ secrets.DISCORD_WEBHOOK_URL }}
-          message: |
-            :exclamation: *Pipeline Failed* :exclamation:
+          title: "Pipeline Failed"
+          description: |
             Workflow: ${{ github.workflow }}
             Branch: ${{ github.ref }}
             Commit: ${{ github.sha }}
