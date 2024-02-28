@@ -10,7 +10,7 @@ on:
 
 jobs:
   lint:
-    name: Lint
+    name: Code validation
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -33,20 +33,14 @@ jobs:
       - name: Run tests
         run: npm test
 
-  deploy:
+   deploy:
     name: Deploy
     runs-on: ubuntu-latest
     needs: test
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-      - name: Install Render CLI
+      - name: Deploy to server
         run: |
-          curl -O https://render.com/download/linux/render
-          chmod +x render
-          sudo mv render /usr/local/bin/render
-      - name: Deploy to Render
-        run: |
-          render login --token ${{ secrets.RENDER_TOKEN }} 
-          render deploy --config render.yaml 
+          ssh todoapplication@ssh-todoapplication.alwaysdata.net 'cd /rohitlingarker/Todo-application && git pull origin main && npm install && npm run build'
 
