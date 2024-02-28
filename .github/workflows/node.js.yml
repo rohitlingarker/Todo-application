@@ -28,7 +28,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
       - name: Install dependencies
-        run: npm install || echo "::error::Failed to install dependencies. See workflow logs for details." && exit 1
+        run: npm install
       - name: Run tests
         run: npm test || echo "::error::Tests failed. See workflow logs for details." && exit 1
 
