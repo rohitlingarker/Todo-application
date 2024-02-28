@@ -23,7 +23,7 @@ jobs:
   test:
     name: Test
     runs-on: ubuntu-latest
-    needs: build
+    needs:  validate-code
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -50,7 +50,7 @@ jobs:
   notify-on-failure:
     name: Notify on Failure
     runs-on: ubuntu-latest
-    needs: [validate-code, build, test, deploy]
+    needs: [validate-code, test, deploy]
     if: failure()
     steps:
       - name: Notify on Failure
