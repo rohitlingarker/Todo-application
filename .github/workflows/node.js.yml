@@ -23,6 +23,8 @@ jobs:
   test:
     name: Test
     runs-on: ubuntu-latest
+    env:
+      TEST_DATABASE_URL: ${{ secrets.TEST_DATABASE_URL }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
