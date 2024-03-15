@@ -37,25 +37,24 @@ jobs:
   deploy:
     name: Deploy
     runs-on: ubuntu-latest
-    needs: test
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-      - name: Install SSH key
-        uses: webfactory/ssh-agent@v0.5.3
-        with:
-          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
-      - name: Deploy to Alwaysdata
-        run: |
-          scp -r ./dist/* todoapplication@ssh-todoapplication.alwaysdata.net:/
+    - name : Deploy using ssh
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.HOST  }}
+        username: ${{ secrets.USERNAME }}
+        key: ${{  secrets.SSH_PRIVATE_KEY }}
+        port: 22
+        scripts:  |
+          cd /www/todo-application
+          git pull origin master
+          git status
+          npm install --only=prod
 
   notify-on-failure:
     name: Notify on Failure
     runs-on: ubuntu-latest
     needs: [validate-code, test, deploy]
-    env:
-      DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
-      uses: Ilshidur/action-discord@master
     if: failure()
     steps:
       - name: Notify on Failure
