@@ -46,7 +46,7 @@ jobs:
         key: ${{  secrets.SSH_PRIVATE_KEY }}
         port: 22
         scripts:  |
-          cd /www/todo-application
+          cd www/todo-application
           git pull origin master
           git status
           npm install --only=prod
