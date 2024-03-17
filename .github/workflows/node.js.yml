@@ -42,6 +42,19 @@ jobs:
         run: |
           npm test
           if [ $? -ne 0 ]; then exit 1; fi  # Exit with status code 1 if tests fail
+      - name: Notify Discord on Failure and Success
+        uses: sarisia/actions-status-discord@v1
+        with:
+          webhook: ${{ secrets.DISCORD_WEBHOOK_URL }}
+          status: ${{ job.status }}
+          content: "Hey <@316911818725392384>"
+          title: "deploy"
+          description: "Build and deploy to GitHub Pages"
+          image: ${{ secrets.EMBED_IMAGE }}
+          color: 0x0000ff
+          url: "https://github.com/sarisia/actions-status-discord"
+          username: GitHub Actions
+          avatar_url: ${{ secrets.AVATAR_URL }}
 
   deploy:
     name: Deploy
