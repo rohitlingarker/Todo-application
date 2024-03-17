@@ -71,7 +71,7 @@ jobs:
       - name: Notify Discord on Failure and Success
         uses: sarisia/actions-status-discord@v1
         with:
-          webhook: ${{ secrets.DISCORD_WEBHOOK }}
+          webhook: ${{ secrets.DISCORD_WEBHOOK_URL }}
           status: ${{ job.status }}
           content: "Hey <@316911818725392384>"
           title: "deploy"
