@@ -90,6 +90,5 @@ jobs:
           REPO: ${{ github.repository }}
 
       - name: Send Notification
-        if: always()
         run: |
           curl -X POST -H "Content-Type: application/json" -d "{\"content\":\"Pipeline Completed\nWorkflow: '${{ github.workflow }}'\nCode validation: ${{ job.status }}\nTest: ${{ needs.test.result }}\nDeploy: ${{ needs.deploy.result }}\"}" ${{ secrets.DISCORD_WEBHOOK_URL }}
