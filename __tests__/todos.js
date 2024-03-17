@@ -33,7 +33,7 @@ describe("Todo Application", function () {
       firstName: "Test",
       lastName: "User B",
       email: "user.b@test.com",
-      password: "12345678",
+      password: "1234567",
       _csrf: csrfToken,
     });
 
