@@ -1,5 +1,5 @@
 {
-  "production": {
+  "development": {
     "username": "postgres",
     "password": "objective",
     "database": "wd-todo-dev",
@@ -10,7 +10,7 @@
     "use_env_variable": "TEST_DATABASE_URL",
     "dialect": "postgres"
   },
-  "development": {
+  "production": {
     "username": "todoapplication",
     "password": "(Rohit50)",
     "database": "todoapplication_root",
