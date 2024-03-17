@@ -12,7 +12,6 @@ jobs:
   validate-code:
     name:  Code validation
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -26,7 +25,7 @@ jobs:
         run: npm install
 
       - name: Run linting
-        run: npm run lint
+        run: npm run lint || exit 1  # Exit with status code 1 if linting fails
 
   test:
     name: Test
@@ -40,7 +39,7 @@ jobs:
       - name: Install dependencies
         run: npm ci
       - name: Run tests
-        run: npm test || echo "::error::Tests failed. See workflow logs for details."
+        run: npm test || exit 1  # Exit with status code 1 if tests fail
 
   deploy:
     name: Deploy
@@ -59,7 +58,7 @@ jobs:
             echo "Current directory: $(pwd)"
             git pull origin master
             git status
-            npm install --only=prod
+            npm install --only=prod || exit 1  # Exit with status code 1 if npm install fails
 
   notify-on-failure-and-success:
     name: Notify on Failure and Success
@@ -76,4 +75,3 @@ jobs:
         if: success()
         run: |
           curl -X POST -H "Content-Type: application/json" -d "{\"content\":\"Pipeline Succeeded\nWorkflow: '${{ github.workflow }}'\nBranch: '${{ github.ref }}'\nCommit: '${{ github.sha }}'\nAuthor: '${{ github.actor }}'\"}" ${{ secrets.DISCORD_WEBHOOK_URL }}
-  
