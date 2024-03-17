@@ -38,18 +38,19 @@ jobs:
     name: Deploy
     runs-on: ubuntu-latest
     steps:
-    - name : Deploy using ssh
-      uses: appleboy/ssh-action@master
-      with:
-        host: ${{ secrets.HOST  }}
-        username: ${{ secrets.USERNAME }}
-        key: ${{  secrets.SSH_PRIVATE_KEY }}
-        port: 22
-        scripts:  |
-          cd www/todo-application
-          git pull origin master
-          git status
-          npm install --only=prod
+      - name: Deploy using ssh
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.HOST  }}
+          username: ${{ secrets.USERNAME }}
+          key: ${{  secrets.SSH_PRIVATE_KEY }}
+          port: 22
+          scripts: |
+            cd www/todo-application
+            echo "Current directory: $(pwd)"
+            git pull origin master
+            git status
+            npm install --only=prod
 
   notify-on-failure:
     name: Notify on Failure
