@@ -55,7 +55,7 @@ jobs:
   notify-on-failure-and-success:
     name: Notify on Failure and Success
     runs-on: ubuntu-latest
-    needs: [ deploy]
+    needs: [validate-code, test, deploy]
     if: always() # Trigger on both success and failure
     steps:
       - name: Notify on Failure
