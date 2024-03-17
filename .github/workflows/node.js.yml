@@ -25,12 +25,7 @@ jobs:
         run: npm install
 
       - name: Run linting
-        run: npm run lint || exit 1  
-
-      - name: Notify on failure
-        if: failure()
-        run: |
-          curl -X POST -H "Content-Type: application/json" -d "{\"content\":\"Pipeline Failed\nWorkflow: '${{ github.workflow }}'\nBranch: '${{ github.ref }}'\nCommit: '${{ github.sha }}'\nAuthor: '${{ github.actor }}'\nError: '${{ job.status }}'\"}" ${{ secrets.DISCORD_WEBHOOK_URL }}
+        run: npm run lint || exit 1  # Exit with status code 1 if linting fails
 
   test:
     name: Test
@@ -46,11 +41,7 @@ jobs:
       - name: Run tests
         run: |
           npm test
-          if [ $? -ne 0 ]; then exit 1; fi 
-      - name: Notify on failure
-        if: failure()
-        run: |
-          curl -X POST -H "Content-Type: application/json" -d "{\"content\":\"Pipeline Failed\nWorkflow: '${{ github.workflow }}'\nBranch: '${{ github.ref }}'\nCommit: '${{ github.sha }}'\nAuthor: '${{ github.actor }}'\nError: '${{ job.status }}'\"}" ${{ secrets.DISCORD_WEBHOOK_URL }}
+          if [ $? -ne 0 ]; then exit 1; fi  # Exit with status code 1 if tests fail
 
   deploy:
     name: Deploy
@@ -69,12 +60,8 @@ jobs:
             echo "Current directory: $(pwd)"
             git pull origin master
             git status
-            npm install --only=prod || exit 1  
+            npm install --only=prod || exit 1  # Exit with status code 1 if npm install fails
 
-      - name: Notify on failure
-        if: failure()
-        run: |
-          curl -X POST -H "Content-Type: application/json" -d "{\"content\":\"Pipeline Failed\nWorkflow: '${{ github.workflow }}'\nBranch: '${{ github.ref }}'\nCommit: '${{ github.sha }}'\nAuthor: '${{ github.actor }}'\nError: '${{ job.status }}'\"}" ${{ secrets.DISCORD_WEBHOOK_URL }}
   notify-status:
     name: Notify Status
     runs-on: ubuntu-latest
@@ -86,7 +73,7 @@ jobs:
           echo "Test: ${{ needs.test.result }}"
           echo "Deploy: ${{ needs.deploy.result }}"
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} 
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Required for accessing job statuses
           REPO: ${{ github.repository }}
 
       - name: Send Notification
