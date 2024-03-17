@@ -7,7 +7,8 @@
     "start:dev": "nodemon -e js,ejs",
     "start": "node index.js",
     "build": "webpack --config webpack.config.js",
-    "test": "NODE_ENV=test jest --detectOpenHandles"
+    "test": "NODE_ENV=test jest --detectOpenHandles",
+    "lint": "eslint ."
   },
   "lint-staged": {
     "*.js": [
