@@ -45,7 +45,7 @@ jobs:
           username: ${{ secrets.USERNAME }}
           key: ${{  secrets.SSH_PRIVATE_KEY }}
           port: 22
-          scripts: |
+          script: |
             cd www/todo-application
             echo "Current directory: $(pwd)"
             git pull origin master
