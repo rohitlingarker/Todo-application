@@ -73,6 +73,7 @@ jobs:
         if: failure()
         run: |
           curl -X POST -H "Content-Type: application/json" -d "{\"content\":\"Pipeline Failed\nWorkflow: '${{ github.workflow }}'\nBranch: '${{ github.ref }}'\nCommit: '${{ github.sha }}'\nAuthor: '${{ github.actor }}'\nError: '${{ job.status }}'\"}" ${{ secrets.DISCORD_WEBHOOK_URL }}
+
   notify-status:
     name: Notify Status
     runs-on: ubuntu-latest
