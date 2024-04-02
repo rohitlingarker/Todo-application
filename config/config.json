@@ -1,21 +1,22 @@
 {
   "development": {
-    "username": "postgres",
-    "password": "objective",
-    "database": "wd-todo-dev",
-    "host": "127.0.0.1",
-    "dialect": "postgres"
+    "username": "${DEV_DB_USERNAME}",
+    "password": "${DEV_DB_PASSWORD}",
+    "database": "${DEV_DB_DATABASE}",
+    "port":"${DEV_DB_PORT}",
+    "host": "${DEV_DB_HOST}",
+    "dialect": "${DEV_DB_DIALECT}"
   },
   "test": {
     "use_env_variable": "TEST_DATABASE_URL",
     "dialect": "postgres"
   },
   "production": {
-    "username": "todoapplication",
-    "password": "(Rohit50)",
-    "database": "todoapplication_root",
-    "host": "185.31.41.42",
-    "port": 5432,
-    "dialect": "postgres"
+    "username": "${PROD_DB_USERNAME}",
+    "password": "${PROD_DB_PASSWORD}",
+    "database": "${PROD_DB_DATABASE}",
+    "host": "${PROD_DB_HOST}",
+    "port": "${PROD_DB_PORT}",
+    "dialect": "${PROD_DB_DIALECT}"
   }
 }

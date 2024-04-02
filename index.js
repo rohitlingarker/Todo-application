@@ -1,7 +1,7 @@
 const app = require("./app");
 
-
-app.listen(8100, function () {
-  console.log('Started express server at port:8100')
+const PORT = process.env.NODE_ENV === 'production' ? process.env.PROD_DB_PORT : process.env.DEV_DB_PORT || 3000;
+app.listen(PORT, function () {
+  console.log('Started express server at port:'+PORT)
 })
 
