@@ -3,8 +3,8 @@
     "username": "${DEV_DB_USERNAME}",
     "password": "${DEV_DB_PASSWORD}",
     "database": "${DEV_DB_DATABASE}",
-    "port":"${DEV_DB_PORT}",
-    "host": "${DEV_DB_HOST}",
+    "port":"${DEV_SERVER_PORT}",
+    "host": "${DEV_SERVER_HOST}",
     "dialect": "${DEV_DB_DIALECT}"
   },
   "test": {
@@ -15,8 +15,8 @@
     "username": "${PROD_DB_USERNAME}",
     "password": "${PROD_DB_PASSWORD}",
     "database": "${PROD_DB_DATABASE}",
-    "host": "${PROD_DB_HOST}",
-    "port": "${PROD_DB_PORT}",
+    "host": "${PROD_SERVER_HOST}",
+    "port": "${PROD_SERVER_PORT}",
     "dialect": "${PROD_DB_DIALECT}"
   }
 }
