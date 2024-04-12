@@ -6,7 +6,6 @@
   "scripts": {
     "dev": "nodemon -e js,ejs",
     "start": "NODE_ENV=production node index.js",
-    "build": "webpack --config webpack.config.js",
     "test": "NODE_ENV=test jest --detectOpenHandles",
     "lint": "eslint ."
   },
