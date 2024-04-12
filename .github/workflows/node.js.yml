@@ -3,7 +3,7 @@ name: WebApp CI/CD
 on:
   push:
     branches:
-      - master
+      - feature-docker
 
 jobs:
   validate-code:
