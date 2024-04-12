@@ -225,6 +225,7 @@ app.post("/users", async (request, response) => {
       response.redirect("/todos");
     });
   } catch (error) {
+    console.log(error);
     error.errors.forEach((element) => {
       const msg = element.message;
       request.flash("error", msg);

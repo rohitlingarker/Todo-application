@@ -1,0 +1,30 @@
+version: '3'
+
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "4000:4000"
+    environment:
+      - NODE_ENV=development
+      - DEV_DB_USERNAME=${DEV_DB_USERNAME}
+      - DEV_DB_PASSWORD=${DEV_DB_PASSWORD}
+      - DEV_DB_DATABASE=${DEV_DB_DATABASE}
+      - DEV_SERVER_PORT=${DEV_SERVER_PORT}
+      - DEV_DB_HOST=db
+      - DEV_DB_PORT=5432
+      - DEV_DB_DIALECT=${DEV_DB_DIALECT}
+    depends_on:
+      - db
+    command: ["sh", "-c", "npx sequelize-cli db:migrate && node index.js"] 
+
+  db:
+    image: postgres:latest
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=${DEV_DB_USERNAME}
+      - POSTGRES_PASSWORD=${DEV_DB_PASSWORD}
+      - POSTGRES_DB=${DEV_DB_DATABASE}
