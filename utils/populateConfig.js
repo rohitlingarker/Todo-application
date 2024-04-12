@@ -22,12 +22,15 @@ config.development.port = process.env.DEV_DB_PORT;
 config.development.host = process.env.DEV_SERVER_HOST;
 config.development.dialect = process.env.DEV_DB_DIALECT;
 
+config.test.use_env_variable = process.env.TEST_DATABASE_URL;
+
 config.production.username = process.env.PROD_DB_USERNAME;
 config.production.password = process.env.PROD_DB_PASSWORD;
 config.production.database = process.env.PROD_DB_DATABASE;
 config.production.port = process.env.PROD_SERVER_PORT;
 config.production.host = process.env.PROD_SERVER_HOST;
 config.production.dialect = process.env.PROD_DB_DIALECT;
+
 
 // Write the updated config object to config.json file
 fs.writeFileSync(configPath, JSON.stringify(config, null, 2));
