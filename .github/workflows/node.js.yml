@@ -31,16 +31,17 @@ jobs:
 
   build-and-test:
     name: Build and Test
+    needs: validate-code
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
 
       - name: Build Docker image
-        run: docker build -t my-webapp .
+        run: docker build -t todoapp .
 
       - name: Test with Docker
-        run: docker run my-webapp npm test
+        run: docker run todoapp npm test
 
   deploy:
     name: Deploy
