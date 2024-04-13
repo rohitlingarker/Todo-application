@@ -10,15 +10,15 @@ function extractCsrfToken(res) {
   return $("[name=_csrf]").val();
 }
 
-const login = async (agent, username, password) => {
-  let res = await agent.get("/login");
-  let csrfToken = extractCsrfToken(res);
-  res = await agent.post("/session").send({
-    email: username,
-    password: password,
-    _csrf: csrfToken,
-  });
-};
+// const login = async (agent, username, password) => {
+//   let res = await agent.get("/login");
+//   let csrfToken = extractCsrfToken(res);
+//   res = await agent.post("/session").send({
+//     email: username,
+//     password: password,
+//     _csrf: csrfToken,
+//   });
+// };
 
 describe("Todo Application", function () {
   beforeAll(async () => {
