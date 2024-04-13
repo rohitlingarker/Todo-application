@@ -16,13 +16,13 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v2
         with:
-          node-version: '14'
+          node-version: "14"
 
       - name: Install dependencies
         run: npm install
 
       - name: Run linting
-        run: npm run lint || exit 1  
+        run: npm run lint || exit 1
 
       - name: Notify on failure
         if: failure()
@@ -43,7 +43,7 @@ jobs:
       - name: Run tests
         run: |
           npm test
-          if [ $? -ne 0 ]; then exit 1; fi 
+          if [ $? -ne 0 ]; then exit 1; fi
       - name: Notify on failure
         if: failure()
         run: |
@@ -73,9 +73,8 @@ jobs:
     steps:
       - name: Deploy using Docker Compose
         run: |
-          ls
-          docker-compose -f docker-compose.yml up -d
-          docker-compose -f docker-compose.yml ps
+          docker-compose up -d
+          docker-compose ps
 
       - name: Notify on failure
         if: failure()
@@ -93,7 +92,7 @@ jobs:
           echo "Test: ${{ needs.test.result }}"
           echo "Deploy: ${{ needs.deploy.result }}"
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} 
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           REPO: ${{ github.repository }}
 
       - name: Send Notification
