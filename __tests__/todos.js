@@ -49,18 +49,18 @@ describe("Todo Application", function () {
     }
   });
 
-  // test("Sign up", async () => {
-  //   let res = await agent.get("/signup");
-  //   const csrfToken = extractCsrfToken(res);
-  //   res = await agent.post("/users").send({
-  //     firstName: "Test",
-  //     lastName: "User A",
-  //     email: "user.a@test.com",
-  //     password: "12345678",
-  //     _csrf: csrfToken,
-  //   });
-  //   expect(res.statusCode).toBe(302);
-  // });
+  test("Sign up", async () => {
+    let res = await agent.get("/signup");
+    const csrfToken = extractCsrfToken(res);
+    res = await agent.post("/users").send({
+      firstName: "Test",
+      lastName: "User A",
+      email: "user.a@test.com",
+      password: "12345678",
+      _csrf: csrfToken,
+    });
+    expect(res.statusCode).toBe(302);
+  });
 
   // test("Sign out", async () => {
   //   let res = await agent.get("/todos");
