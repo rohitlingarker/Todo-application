@@ -12,8 +12,10 @@ const config = require(__dirname + "/../config/config.json")[env];
 const db = {};
 
 let sequelize;
-if (config.use_env_variable) {
-  sequelize = new Sequelize(process.env[config.use_env_variable], config);
+
+if (process.env.NODE_ENV == "test") {
+  // console.log("5555555555555",config);
+  sequelize = new Sequelize("postgres://blnzaehi:QfO9R4EGtVmVxNOB3pwu3w7WS4WrRqQT@satao.db.elephantsql.com/blnzaehi", config);
 } else {
   sequelize = new Sequelize(
     config.database,
