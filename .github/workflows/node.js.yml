@@ -49,7 +49,7 @@ jobs:
         run: |
           curl -X POST -H "Content-Type: application/json" -d "{\"content\":\"Pipeline Failed\nWorkflow: '${{ github.workflow }}'\nBranch: '${{ github.ref }}'\nCommit: '${{ github.sha }}'\nAuthor: '${{ github.actor }}'\nError: '${{ job.status }}'\"}" ${{ secrets.DISCORD_WEBHOOK_URL }}
 
-  build-and-push-image:
+  build-and-deploy-image:
     name: Build and Push Docker Image
     runs-on: ubuntu-latest
     needs: test
@@ -70,7 +70,7 @@ jobs:
   notify-status:
     name: Notify Status
     runs-on: ubuntu-latest
-    needs: [validate-code, test,  build-and-push-image]
+    needs: [validate-code, test,  build-and-deploy-image]
     steps:
       - name: Get Job Statuses
         run: |
